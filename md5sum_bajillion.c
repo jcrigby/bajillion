@@ -7,9 +7,15 @@
 
 int main(int argc, char *argv[]) {
     int verbose = 0;  // Default to not verbose
+    int iterations = 1000000;  // Default number of iterations
 
-    if (argc > 1 && strcmp(argv[1], "--verbose") == 0) {
-        verbose = 1;  // Set verbose mode if "--verbose" argument is provided
+    // Parse command line options
+    for (int i = 1; i < argc; ++i) {
+        if (strcmp(argv[i], "--verbose") == 0) {
+            verbose = 1;  // Enable verbose mode if "--verbose" argument is provided
+        } else if (strcmp(argv[i], "--iterations") == 0 && i + 1 < argc) {
+            iterations = atoi(argv[i + 1]);  // Set custom number of iterations
+        }
     }
 
     const char *md5sum_args[] = {
@@ -24,7 +30,7 @@ int main(int argc, char *argv[]) {
     pid_t child_pid;
     int result;
 
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < iterations; ++i) {
         if ((result = posix_spawn(&child_pid, "/usr/bin/md5sum", &file_actions, NULL, (char *const *)md5sum_args, NULL)) == 0) {
             if (verbose) {
                 printf("Spawned md5sum process %d\n", i + 1);
@@ -34,7 +40,7 @@ int main(int argc, char *argv[]) {
             int status;
             waitpid(child_pid, &status, 0);
 
-            if (!verbose) {
+            if (verbose) {
                 if (WIFEXITED(status)) {
                     printf("md5sum process %d exited with status %d\n", i + 1, WEXITSTATUS(status));
                 } else {
@@ -50,3 +56,4 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
