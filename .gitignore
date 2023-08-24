@@ -1,0 +1,18 @@
+# Compiled files
+*.o
+*.out
+
+# Executables
+md5sum_bajillion
+
+# Ignore any files in a "build" directory
+/build/
+
+# Ignore any files in a "bin" directory
+/bin/
+
+# Ignore system-specific or editor-specific files
+.DS_Store
+.vscode/
+*.swp
+*~
