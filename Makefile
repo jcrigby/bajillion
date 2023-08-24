@@ -1,12 +1,15 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
 
-TARGET = md5sum_bajillion
+TARGETS = md5sum_bench md5sum_bench_system
 
-all: $(TARGET)
+all: $(TARGETS)
 
-$(TARGET): $(TARGET).c
+md5sum_bench: md5sum_bench.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+md5sum_bench_system: md5sum_bench_system.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(TARGETS)
