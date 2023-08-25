@@ -4,6 +4,7 @@
 #include <spawn.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include "timer.h"  // Include your timer header here
 
 int main(int argc, char *argv[]) {
     int verbose = 0;  // Default to not verbose
@@ -18,22 +19,23 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    const char *md5sum_args[] = {
-        "md5sum",                   // command
-        "file_to_hash.txt",         // file to hash
+    printf("iterations is %d\n", iterations);
+
+    const char *child_args[] = {
+        "/bin/true",                   // command
         NULL                        // end of argument list
     };
 
-    posix_spawn_file_actions_t file_actions;
-    posix_spawn_file_actions_init(&file_actions);
+    // Start the timer
+    start_timer();
 
     pid_t child_pid;
     int result;
 
     for (int i = 0; i < iterations; ++i) {
-        if ((result = posix_spawn(&child_pid, "/usr/bin/md5sum", &file_actions, NULL, (char *const *)md5sum_args, NULL)) == 0) {
+        if ((result = posix_spawn(&child_pid, child_args[0], NULL, NULL, (char *const *)child_args, NULL)) == 0) {
             if (verbose) {
-                printf("Spawned md5sum process %d\n", i + 1);
+                printf("Spawned /bin/true process %d\n", i + 1);
             }
 
             // Wait for the child process to exit
@@ -42,17 +44,20 @@ int main(int argc, char *argv[]) {
 
             if (verbose) {
                 if (WIFEXITED(status)) {
-                    printf("md5sum process %d exited with status %d\n", i + 1, WEXITSTATUS(status));
+                    printf("/bin/true process %d exited with status %d\n", i + 1, WEXITSTATUS(status));
                 } else {
-                    printf("md5sum process %d exited abnormally\n", i + 1);
+                    printf("/bin/true process %d exited abnormally\n", i + 1);
                 }
             }
         } else {
-            fprintf(stderr, "Error spawning md5sum process: %d\n", result);
+            fprintf(stderr, "Error spawning /bin/true process: %d\n", result);
         }
     }
 
-    posix_spawn_file_actions_destroy(&file_actions);
+    stop_timer();
+
+    // Print statistics
+    print_statistics(iterations);
 
     return 0;
 }

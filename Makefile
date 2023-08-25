@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
 
-TARGETS = md5sum_bench md5sum_bench_system just_fork_bench
+TARGETS = posix_spawn_bench md5sum_bench_system just_fork_bench
 
 all: $(TARGETS)
 
