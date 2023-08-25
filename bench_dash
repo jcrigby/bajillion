@@ -1,0 +1,5 @@
+#!/bin/dash
+
+time ./loop_body
+time ./loop_body2
+

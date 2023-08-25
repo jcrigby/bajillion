@@ -1,8 +1,0 @@
-#!/bin/sh
-
-i=0
-while [ "$i" -lt 10000 ]; do
-    /usr/bin/md5sum file_to_hash.txt > /dev/null
-
-    i=$((i + 1))
-done

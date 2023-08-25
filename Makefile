@@ -20,6 +20,7 @@ shorttest: $(TARGETS)
 	done
 
 longtest: $(TARGETS)
+	time -f "\n%e\n" dash ./dash_loop_body
 	@for target in $(TARGETS); do \
 		echo $$target; \
 		./$$target --iterations 100000; \
