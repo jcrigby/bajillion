@@ -15,13 +15,15 @@ clean:
 ITERATIONS ?= 100
 
 benchtest:
-	@for target in $(TARGETS); do \
+	for target in $(TARGETS); do \
 		echo $$target; \
 		./$$target --iterations $(ITERATIONS); \
 		echo ""; \
 	done
+	bash ./generic_shell_bench.sh $(ITERATIONS)
+	dash ./generic_shell_bench.sh  $(ITERATIONS)
 
 
-shorttest: ; @$(MAKE) benchtest ITERATIONS=10
+shorttest: ; $(MAKE) benchtest ITERATIONS=10
 
-longtest: ; @$(MAKE) benchtest ITERATIONS=100000
+longtest: ; $(MAKE) benchtest ITERATIONS=100000
