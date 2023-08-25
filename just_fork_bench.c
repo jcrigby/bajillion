@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <sys/time.h>
+#include "timer.h"  // Include your timer header here
 
 int main(int argc, char *argv[]) {
     int verbose = 0;  // Default to not verbose
@@ -18,11 +18,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    struct timeval start_time, end_time;
-    double elapsed_time;
-
-    // Capture the start time
-    gettimeofday(&start_time, NULL);
+    // Start the timer
+    start_timer();
 
     pid_t child_pid;
     int status;
@@ -55,17 +52,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Capture the end time
-    gettimeofday(&end_time, NULL);
+    // Stop the timer and calculate elapsed time
+    stop_timer();
 
-    // Calculate elapsed time in seconds
-    elapsed_time = (end_time.tv_sec - start_time.tv_sec) + ((end_time.tv_usec - start_time.tv_usec) / 1000000.0);
-
-    // Calculate iterations per second
-    double iterations_per_second = iterations / elapsed_time;
-
-    printf("Elapsed time: %.2f seconds\n", elapsed_time);
-    printf("Iterations per second: %.2f\n", iterations_per_second);
+    // Print statistics
+    print_statistics(iterations);
 
     return 0;
 }
