@@ -1,4 +1,0 @@
-#!/bin/dash
-for i in $(seq 1 100000); do
-    /bin/true
-done
