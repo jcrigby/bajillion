@@ -18,7 +18,7 @@ static inline void stop_timer() {
 
 static inline void print_statistics(int iterations) {
     double iterations_per_second = iterations / elapsed_time;
-    printf("Elapsed time: %.2f seconds\nIterations per second: %.2f\n", elapsed_time, iterations_per_second);
+    printf("Elapsed time: %.2f seconds\nIterations: %d\nIterations per second: %.2f\n", elapsed_time, iterations, iterations_per_second);
 }
 
 #endif // TIMER_H

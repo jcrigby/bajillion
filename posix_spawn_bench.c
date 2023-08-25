@@ -4,13 +4,12 @@
 #include <spawn.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include "timer.h"  // Include your timer header here
+#include "timer.h"
 
 int main(int argc, char *argv[]) {
     int verbose = 0;  // Default to not verbose
     int iterations = 1000000;  // Default number of iterations
 
-    // Parse command line options
     for (int i = 1; i < argc; ++i) {
         if (strcmp(argv[i], "--verbose") == 0) {
             verbose = 1;  // Enable verbose mode if "--verbose" argument is provided
@@ -19,14 +18,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    printf("iterations is %d\n", iterations);
-
     const char *child_args[] = {
         "/bin/true",                   // command
         NULL                        // end of argument list
     };
 
-    // Start the timer
     start_timer();
 
     pid_t child_pid;
@@ -56,7 +52,6 @@ int main(int argc, char *argv[]) {
 
     stop_timer();
 
-    // Print statistics
     print_statistics(iterations);
 
     return 0;

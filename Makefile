@@ -1,12 +1,12 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
 
-TARGETS = posix_spawn_bench md5sum_bench_system just_fork_bench
+TARGETS = posix_spawn_bench system_bench just_fork_bench
 
 all: $(TARGETS)
 
 # General compilation rule
-%: %.c
+%: %.c timer.h
 	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
