@@ -12,9 +12,16 @@ all: $(TARGETS)
 clean:
 	rm -f $(TARGETS)
 
-test: $(TARGETS)
+shorttest: $(TARGETS)
 	@for target in $(TARGETS); do \
-		echo "Running benchmark using $$target..."; \
-		time ./$$target --iterations 1000; \
+		echo $$target; \
+		./$$target --iterations 1000; \
+		echo ""; \
+	done
+
+longtest: $(TARGETS)
+	@for target in $(TARGETS); do \
+		echo $$target; \
+		./$$target --iterations 100000; \
 		echo ""; \
 	done
