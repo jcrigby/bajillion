@@ -12,17 +12,16 @@ all: $(TARGETS)
 clean:
 	rm -f $(TARGETS)
 
-shorttest: $(TARGETS)
+ITERATIONS ?= 100
+
+benchtest:
 	@for target in $(TARGETS); do \
 		echo $$target; \
-		./$$target --iterations 1000; \
+		./$$target --iterations $(ITERATIONS); \
 		echo ""; \
 	done
 
-longtest: $(TARGETS)
-	time -f "\n%e\n" dash ./dash_loop_body
-	@for target in $(TARGETS); do \
-		echo $$target; \
-		./$$target --iterations 100000; \
-		echo ""; \
-	done
+
+shorttest: ; @$(MAKE) benchtest ITERATIONS=10
+
+longtest: ; @$(MAKE) benchtest ITERATIONS=100000
