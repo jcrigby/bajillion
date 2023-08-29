@@ -27,7 +27,7 @@ int __libc_start_main(
     libc_start_main_t original_libc_start_main;
     original_libc_start_main = (libc_start_main_t)dlsym(RTLD_NEXT, "__libc_start_main");
 
-    for(int i = 0; i < 10; ++i) {
+    for(int i = 0; i < 100000; ++i) {
         pid_t pid = fork();
 
         if (pid == 0) {
